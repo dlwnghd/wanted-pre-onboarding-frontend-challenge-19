@@ -2,7 +2,7 @@
 
 ## 과제 1 todo list 만들기
 
-## 구현 화면
+### 구현 화면
 ![Wanted TODOLIST](https://github.com/dlwnghd/wanted-pre-onboarding-frontend-challenge-19/assets/61799492/ca7e5409-ad3c-4b36-84b7-94164b54a1e2)
 
 ### 실행
