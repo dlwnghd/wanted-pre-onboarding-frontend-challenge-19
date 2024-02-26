@@ -9,19 +9,30 @@ import { addTodo, selectTodo } from '../../store/slice'
 
 export default function List() {
 	const dispatch = useDispatch()
+
 	const todoList = useSelector(selectTodo)
+
 	const todoRef = useRef<HTMLInputElement>(null)
+	const errorRef = useRef<HTMLParagraphElement>(null)
 
 	const handleClick = () => {
-		if (todoRef.current) {
+		const text = todoRef.current?.value
+		if (text && text !== '') {
 			const newTodo: todoType = {
 				id: Date.now(),
-				title: todoRef.current.value,
+				title: text,
 			}
-
 			dispatch(addTodo(newTodo))
 
 			todoRef.current.value = ''
+
+			if (errorRef.current) {
+				errorRef.current.innerText = ''
+			}
+		} else {
+			if (errorRef.current) {
+				errorRef.current.innerText = '투두를 입력해주세요.'
+			}
 		}
 	}
 
@@ -32,6 +43,7 @@ export default function List() {
 				<S.TodoInput type="text" placeholder="✍️ 투두 작성..." ref={todoRef} />
 				<S.AddTodoButton onClick={handleClick}>Add</S.AddTodoButton>
 			</S.AddContainer>
+			<S.ErrorContainer ref={errorRef}></S.ErrorContainer>
 			{todoList.length > 0 &&
 				todoList.map((todo, idx) => {
 					return <Todo key={idx} todo={todo} />
@@ -64,9 +76,15 @@ const AddTodoButton = styled.button`
 	border-radius: 0.5rem;
 `
 
+const ErrorContainer = styled.p`
+	width: 100%;
+	color: red;
+`
+
 const S = {
 	Container,
 	AddContainer,
 	TodoInput,
 	AddTodoButton,
+	ErrorContainer,
 }
